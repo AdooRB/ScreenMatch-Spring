@@ -1,5 +1,6 @@
 package com.aluracursos.Screenmatch.principal;
 
+import com.aluracursos.Screenmatch.model.DatosEpisodio;
 import com.aluracursos.Screenmatch.model.DatosSerie;
 import com.aluracursos.Screenmatch.model.DatosTemporadas;
 import com.aluracursos.Screenmatch.service.ConsumoAPI;
@@ -32,7 +33,23 @@ public class Principal {
             var datosTemporadas = conversor.obtenerDatos(json,DatosTemporadas.class);
             temporadas.add(datosTemporadas);
         }
-        temporadas.forEach(System.out::println);
+        //Mostrar los objetos DatosTemporada
+        //temporadas.forEach(System.out::println);
 
+/*
+        //Mostrar los episodios por "manera conversional"
+        for (int i = 0; i < datos.totalDeTemporadas() ; i++) {
+            List<DatosEpisodio> episodiosTemporada = temporadas.get(i).episodios();
+            System.out.println("*************** Temporada: " + temporadas.get(i).numero() + "  ******************");
+            for (int j = 0; j < episodiosTemporada.size(); j++) {
+                System.out.println(episodiosTemporada.get(j).titulo());
+            }
+        }*/
+
+        //Mostrar los episodios por "función lambda"
+            temporadas.forEach(t ->{
+                System.out.println("************Temporada " + t.numero() + " ***************");
+                t.episodios().forEach(e -> System.out.println(e.titulo()));
+            });
     }
 }
