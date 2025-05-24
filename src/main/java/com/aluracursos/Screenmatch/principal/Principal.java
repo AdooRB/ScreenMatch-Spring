@@ -60,7 +60,7 @@ public class Principal {
 
         //Top 5
         System.out.println("````Top 5 episodios``````");
-        datosEpisodios.stream()
+        /*datosEpisodios.stream()
                 .filter(e -> !e.evaluacion().equalsIgnoreCase("N/A"))
                 .peek(e -> System.out.println("Primer filtro (N/A) " + e))
                 .sorted(Comparator.comparing(DatosEpisodio::evaluacion).reversed())
@@ -68,7 +68,7 @@ public class Principal {
                 .map(e -> e.titulo().toUpperCase())
                 .peek(e -> System.out.println("Tercer filtro Mayusculas (m > M) " + e))
                 .limit(5)
-                .forEach(System.out::println);
+                .forEach(System.out::println);*/
 
         //Conviertiendo los datos a una lista del tipo Episodio
 //        System.out.println("--------Convertiendo DatosEpisodio -> Episodio------");
@@ -84,7 +84,7 @@ public class Principal {
 //        var anno = teclado.nextInt();
         teclado.nextLine();
 
-        LocalDate fechaBusqueda = LocalDate.of(anno,1,1);
+//        LocalDate fechaBusqueda = LocalDate.of(anno,1,1);
 
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/YYYY");
         /*episodios.stream()
@@ -94,5 +94,18 @@ public class Principal {
                                 ", Episodio " + e.getTitulo() +
                                 "Fecha de Lanzamiento " + e.getFechaDeLanzamiento().format(dtf)
                 ));*/
+
+        //Busca Episodio por un pedazo del título
+        System.out.println("El título del episodio que desea ver:");
+        var pedazoTitulo =teclado.nextLine();
+        Optional<Episodio> episodioBuscado = episodios.stream()
+                .filter(e -> e.getTitulo().toUpperCase().contains(pedazoTitulo.toUpperCase()))
+                .findFirst();
+        if (episodioBuscado.isPresent()){
+            System.out.println(" Episodio encontrado");
+            System.out.println("Los datos son: " + episodioBuscado.get());
+        } else {
+            System.out.println("Episodio no encontrado");
+        }
     }
 }
