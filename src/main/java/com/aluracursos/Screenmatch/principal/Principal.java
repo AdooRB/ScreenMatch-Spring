@@ -96,7 +96,7 @@ public class Principal {
                 ));*/
 
         //Busca Episodio por un pedazo del título
-        System.out.println("El título del episodio que desea ver:");
+       /* System.out.println("El título del episodio que desea ver:");
         var pedazoTitulo =teclado.nextLine();
         Optional<Episodio> episodioBuscado = episodios.stream()
                 .filter(e -> e.getTitulo().toUpperCase().contains(pedazoTitulo.toUpperCase()))
@@ -106,6 +106,12 @@ public class Principal {
             System.out.println("Los datos son: " + episodioBuscado.get());
         } else {
             System.out.println("Episodio no encontrado");
-        }
+        }*/
+
+        //Calcula la evaluación por temporada
+        Map<Integer, Double> evaluacionesPorTemporadas = episodios.stream()
+                .filter(e -> e.getEvaluacion() != 0.0)
+                .collect(Collectors.groupingBy(Episodio::getTemporada, Collectors.averagingDouble(Episodio::getEvaluacion)));
+        System.out.println(evaluacionesPorTemporadas);
     }
 }
