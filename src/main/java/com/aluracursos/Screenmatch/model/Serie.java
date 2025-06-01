@@ -80,11 +80,11 @@ public class Serie {
 
     @Override
     public String toString() {
-        return "titulo='" + titulo + '\'' +
+        return "genero=" + genero +
+                ", titulo='" + titulo + '\'' +
                 ", totalDeTemporadas=" + totalDeTemporadas +
                 ", evaluacion=" + evaluacion +
                 ", actores='" + actores + '\'' +
-                ", genero=" + genero +
                 ", sinopsis='" + sinopsis + '\'' +
                 ", poster='" + poster + '\'';
     }
