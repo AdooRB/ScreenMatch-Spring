@@ -1,9 +1,6 @@
 package com.aluracursos.Screenmatch.principal;
 
-import com.aluracursos.Screenmatch.model.DatosEpisodio;
-import com.aluracursos.Screenmatch.model.DatosSerie;
-import com.aluracursos.Screenmatch.model.DatosTemporadas;
-import com.aluracursos.Screenmatch.model.Episodio;
+import com.aluracursos.Screenmatch.model.*;
 import com.aluracursos.Screenmatch.service.ConsumoAPI;
 import com.aluracursos.Screenmatch.service.ConvierteDatos;
 
@@ -81,6 +78,13 @@ public class Principal {
     }
 
     private void mostrarSeriesBuscadas() {
-        datosSeries.forEach(System.out::println);
+        List<Serie> series = new ArrayList<>();
+        series = datosSeries.stream()
+                .map(d -> new Serie(d))
+                .collect(Collectors.toList());
+
+        series.stream()
+                .sorted(Comparator.comparing(Serie::getGenero))
+                .forEach(System.out::println);
     }
 }
