@@ -33,3 +33,5 @@ build/
 .vscode/
 
 src/main/java/com/aluracursos/Screenmatch/principal/EjemploStreams.java
+src/main/java/com/aluracursos/Screenmatch/service/ConsultaChatGPT.java
+src/main/java/com/aluracursos/Screenmatch/service/Gemini.java
