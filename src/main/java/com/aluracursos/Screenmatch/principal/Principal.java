@@ -1,6 +1,7 @@
 package com.aluracursos.Screenmatch.principal;
 
 import com.aluracursos.Screenmatch.model.*;
+import com.aluracursos.Screenmatch.repository.SerieRepository;
 import com.aluracursos.Screenmatch.service.ConsumoAPI;
 import com.aluracursos.Screenmatch.service.ConvierteDatos;
 
@@ -16,6 +17,11 @@ public class Principal {
     private final String API_KEY = "&apikey=1432478b";
     private ConvierteDatos conversor = new ConvierteDatos();
     private List<DatosSerie> datosSeries = new ArrayList<>();
+    private SerieRepository repositorio;
+
+    public Principal(SerieRepository repository) {
+        this.repositorio = repository;
+    }
 
     public void muestraMenu() {
         var opcion = -1;
@@ -73,7 +79,9 @@ public class Principal {
     }
     private void buscarSerieWeb() {
         DatosSerie datos = getDatosSerie();
-        datosSeries.add(datos);
+        Serie serie = new Serie(datos);
+        repositorio.save(serie);
+        //datosSeries.add(datos);
         System.out.println(datos);
     }
 
