@@ -87,10 +87,9 @@ public class Principal {
 
     private void mostrarSeriesBuscadas() {
         List<Serie> series = new ArrayList<>();
-        series = datosSeries.stream()
-                .map(d -> new Serie(d))
-                .collect(Collectors.toList());
+        series = repositorio.findAll();
 
+        //System.out.println(series);
         series.stream()
                 .sorted(Comparator.comparing(Serie::getGenero))
                 .forEach(System.out::println);
