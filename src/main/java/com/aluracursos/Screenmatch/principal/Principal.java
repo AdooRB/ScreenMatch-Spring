@@ -32,6 +32,8 @@ public class Principal {
                     2 - Buscar episodios
                     3 - Mostrar series buscadas
                     4 - Buscar series por titulo
+                    5 - Top 5 mejores series
+                    6 - Buscar series por categoría
                                   
                     0 - Salir
                     """;
@@ -52,8 +54,12 @@ public class Principal {
                 case 4: 
                     buscarSeriesPorTitulo();
                     break;
-
-                case 0:
+                case 5:
+                    buscaTop5Series();
+                    break;
+                case 6:
+                    buscarSeriesPorCategoria();
+               case 0:
                     System.out.println("Cerrando la aplicación...");
                     break;
                 default:
@@ -127,5 +133,20 @@ public class Principal {
         } else {
             System.out.println("Serie no encontrada");
         }
+    }
+
+    private void  buscaTop5Series(){
+        List<Serie> topSeries = repositorio.findTop5ByOrderByEvaluacionDesc();
+        topSeries.forEach(s ->
+                System.out.println("Serie: " + s.getTitulo() + " Evaluación: " + s.getEvaluacion()));
+    }
+
+    private void buscarSeriesPorCategoria(){
+        System.out.println("Escriba el genero/categoría de la serie que desea buscar");
+        var genero = teclado.nextLine();
+        var categoria = Categoria.fromEspanol(genero);
+        List<Serie> seriesPorCategoria = repositorio.findByGenero(categoria);
+        System.out.println("Las series de la catgoría " + genero);
+        seriesPorCategoria.forEach(System.out::println);
     }
 }
