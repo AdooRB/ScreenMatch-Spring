@@ -5,8 +5,6 @@ import com.aluracursos.Screenmatch.repository.SerieRepository;
 import com.aluracursos.Screenmatch.service.ConsumoAPI;
 import com.aluracursos.Screenmatch.service.ConvierteDatos;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -34,7 +32,8 @@ public class Principal {
                     4 - Buscar series por titulo
                     5 - Top 5 mejores series
                     6 - Buscar series por categoría
-                                  
+                    7 - Buscar series por temporadas y evaluación
+                                   
                     0 - Salir
                     """;
             System.out.println(menu);
@@ -58,7 +57,11 @@ public class Principal {
                     buscaTop5Series();
                     break;
                 case 6:
-                    buscarSeriesPorCategoria();
+                    buscaSeriesPorCategoria();
+                    break;
+                case 7:
+                    buscaTemporadasYEvaluacion();
+                    break;
                case 0:
                     System.out.println("Cerrando la aplicación...");
                     break;
@@ -141,12 +144,41 @@ public class Principal {
                 System.out.println("Serie: " + s.getTitulo() + " Evaluación: " + s.getEvaluacion()));
     }
 
-    private void buscarSeriesPorCategoria(){
+    private void buscaSeriesPorCategoria(){
         System.out.println("Escriba el genero/categoría de la serie que desea buscar");
         var genero = teclado.nextLine();
         var categoria = Categoria.fromEspanol(genero);
         List<Serie> seriesPorCategoria = repositorio.findByGenero(categoria);
         System.out.println("Las series de la catgoría " + genero);
         seriesPorCategoria.forEach(System.out::println);
+    }
+
+    private void buscaTemporadasYEvaluacion(){
+        System.out.println("Escirbe la evaluación de la serie");
+        var evaluacion = teclado.nextDouble();
+        System.out.println("Escribe el número de temporadas de la serie");
+        var temporadas = teclado.nextInt();
+
+        // Metodo con Query Deriveds
+//        List<Serie> seriesPorTemporadaYEvaluacion = repositorio.findByTotalDeTemporadasLessThanEqualAndEvaluacionGreaterThanEqual(temporadas, evaluacion);
+
+        //Metodo con SQL nativo
+//        List<Serie> seriesPorTemporadaYEvaluacion = repositorio.seriePorTemporadaYEvaluacion();
+
+        //Metodo con JPQL
+        List<Serie> seriesPorTemporadaYEvaluacion = repositorio.seriePorTemporadaYEvaluacionJPQL(evaluacion,temporadas);
+
+        if (!seriesPorTemporadaYEvaluacion.isEmpty()){
+            System.out.println("\nSe encontró con -  EVALUACION >= " + evaluacion + ",  TEMPORADAS <= " + temporadas);
+            seriesPorTemporadaYEvaluacion.stream()
+                            .sorted(Comparator.comparing(Serie::getEvaluacion).reversed())
+                            .forEach(s -> System.out.println("       " + s.getTitulo() + "   (ev.: " + s.getEvaluacion() + " , tmp.: " + s.getTotalDeTemporadas() + ")"));
+
+        }else {
+            System.out.println("No se encontró ninguna serie con las características añadidas  -  TEMPORADAS: " + temporadas + " , EVALUACION: " + evaluacion);
+        }
+
+
+
     }
 }
